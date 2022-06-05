@@ -1,3 +1,4 @@
+import 'package:doan_flutter/resgiter/signUp_screen.dart';
 import 'package:doan_flutter/screens/login/SignIn_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       ),
      
       routes: {
-        '/':(context) => SignInPage(),
+        '/':(context) => const SignInPage(),
+        '/SignUp': (context) => const SignUpPage(),
       },
       initialRoute: '/',
     );

@@ -92,7 +92,7 @@ class _SignInPageState extends State<SignInPage> {
                                 textButton(
                                     text: "Đăng Ký",
                                     press: () {
-                                      
+                                      Navigator.pushNamed(context, "/SignUp");
                                     })
                               ],
                             ),
