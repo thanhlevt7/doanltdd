@@ -1,3 +1,4 @@
+import 'package:doan_flutter/Home/home_page.dart';
 import 'package:doan_flutter/resgiter/signUp_screen.dart';
 import 'package:doan_flutter/screens/login/SignIn_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {  
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Cake Bakery',
+      title: 'App tin tức',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -22,8 +23,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/':(context) => const SignInPage(),
         '/SignUp': (context) => const SignUpPage(),
+        '/Home' :(context) => const HomePage(), 
       },
-      initialRoute: '/',
+      initialRoute: '/Home',
     );
   }
 }
