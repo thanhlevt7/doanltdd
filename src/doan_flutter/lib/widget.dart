@@ -180,3 +180,39 @@ Widget counter({value, decrement, increment}) => Card(
         ],
       ),
     );
+
+     Widget buildListTile({img,titles, datevaview, sup,press}) => ListTile(
+        leading: Image.asset(
+          img,
+          width: 75,
+        
+        ),
+        title: Text(
+          titles,
+          style: TextStyle(color: Colors.blue),
+        ),
+        subtitle: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(datevaview),
+            Text(
+              sup,
+              style: TextStyle(color: Colors.black),
+            ),
+            InkWell(
+                onTap:press,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Text(
+                      "Xem chi tiết ...",
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ],
+                ),
+              ),
+            
+          ],
+        ),
+      );
