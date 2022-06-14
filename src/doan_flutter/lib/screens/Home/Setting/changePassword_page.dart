@@ -1,4 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doan_flutter/model/user_model.dart';
+import 'package:doan_flutter/widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key}) : super(key: key);
@@ -8,43 +14,108 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  final _formKey = GlobalKey<FormState>();
+  User? user = FirebaseAuth.instance.currentUser;
+  var newPassword = "";
+  UserModel loggedInUser = UserModel();
+  final data = FirebaseFirestore.instance;
+  @override
+  void initState() {
+    super.initState();
+    data.collection("users").doc(user!.uid).get().then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   final gmail = TextEditingController();
+  final passcuController = TextEditingController();
+  final passmoiController = TextEditingController();
+  void dispore() {
+    super.dispose();
+    gmail.dispose();
+    passcuController.dispose();
+    passmoiController.dispose();
+  }
+
+  changePassword() async {
+    await user!.updatePassword(newPassword);
+    await data
+        .collection("users")
+        .doc(user!.uid)
+        .update({'password': newPassword});
+    FirebaseAuth.instance.signOut();
+    Navigator.pushNamed(context, "/");
+    Fluttertoast.showToast(
+        msg: "Password đã thay đổi thành công.. Đăng nhập lại!");
+  }
+
   @override
   Widget build(BuildContext context) {
-    gmail.text = "Thanhlevt7@gmail.com";
+    gmail.text = "${loggedInUser.email}";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
           foregroundColor: Colors.black, title: const Text("Đổi mật khẩu")),
-      body: Column(
-        children: [
-          buildTextField(a: true, title: 'Email', controller: gmail),
-          buildTextField(a: false, title: 'Mật khẩu cũ', b: "Nhập mật khẩu cũ"),
-          buildTextField(
-              a: false, title: 'Mật khẩu mới', b: "Nhập mật khẩu mới"),
-          const SizedBox(
-            height: 250.0,
-          ),
-          Container(
-            height: 50,
-            width: 250,
-            color: Colors.blue,
-            child: const Center(
-              child: Text(
-                "Cập nhật",
-                style: TextStyle(fontSize: 25, color: Colors.black),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            buildTextField(a: true, title: 'Email', controller: gmail),
+            buildTextField(
+                a: false,
+                title: 'Mật khẩu cũ',
+                b: "Nhập mật khẩu cũ",
+                controller: passcuController,
+                dieukien: (value) {
+                  if (passcuController.text != "${loggedInUser.password}") {
+                    return "Mật khẩu cũ không đúng";
+                  }
+                  return null;
+                }),
+            buildTextField(
+                a: false,
+                title: 'Mật khẩu mới',
+                b: "Nhập mật khẩu mới",
+                controller: passmoiController),
+            const SizedBox(
+              height: 250.0,
+            ),
+            InkWell(
+              onTap: () {
+                if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    newPassword = passmoiController.text;
+                  });
+                  changePassword();
+                }
+                print(passcuController.text);
+                print(passmoiController.text);
+                print(newPassword);
+              },
+              child: Container(
+                height: 50,
+                width: 250,
+                color: Colors.blue,
+                child: const Center(
+                  child: Text(
+                    "Cập nhật",
+                    style: TextStyle(fontSize: 25, color: Colors.black),
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildTextField({title, controller, required bool a, b}) {
+  Widget buildTextField({title, controller, required bool a, b, dieukien}) {
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: TextField(
+      child: TextFormField(
+          validator: dieukien,
           readOnly: a,
           controller: controller,
           decoration: InputDecoration(
