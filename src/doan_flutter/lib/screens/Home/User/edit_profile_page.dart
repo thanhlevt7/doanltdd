@@ -3,6 +3,8 @@ import 'package:doan_flutter/constant.dart';
 import 'package:doan_flutter/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -29,24 +31,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   updateInformation() async {
-    await data
-        .collection("users")
-        .doc(user!.uid)
-        .update({'fullname': name.text});
+    await data.collection("users").doc(user!.uid).update(
+        {'fullname': name.text, 'phone': phone.text, 'address': address.text});
+    Fluttertoast.showToast(msg: "Lưu thông tin thành công");
+    Navigator.pushNamed(context, "/Personal_Information");
   }
 
   final name = TextEditingController();
   final email = TextEditingController();
   final phone = TextEditingController();
   final address = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     name.text = "${loggedInUser.fullname}";
     email.text = "${loggedInUser.email}";
-    phone.text = "0348340873";
-    address.text = "Bà rịa vũng tàu";
+    phone.text = "${loggedInUser.phone}";
+    address.text = "${loggedInUser.address}";
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
           foregroundColor: Colors.black,
           title: const Text(
@@ -55,55 +58,61 @@ class _EditProfilePageState extends State<EditProfilePage> {
           )),
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).unfocus();
+          FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Image.asset(
-                  "assets/images/icons/avatar.png",
-                  height: 100,
-                ),
-                Positioned(
-                  right: 10,
-                  bottom: 0,
-                  child: InkWell(
-                    onTap: () {},
-                    child: const CircleAvatar(
-                      backgroundImage:
-                          AssetImage("assets/images/icons/camera.png"),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top:15.0),
+                    child: Image.asset(
+                      "assets/images/icons/avatar.png",
+                      height: 100,
                     ),
                   ),
-                )
-              ],
-            ),
-            Text("${loggedInUser.fullname}",
-                style: const TextStyle(fontSize: 25)),
-            buildTextField(title: "Tên hiển thị", controller: name, a: false),
-            buildTextField(title: "Email", controller: email, a: true),
-            buildTextField(title: "Số điện thoại", controller: phone, a: false),
-            buildTextField(title: "Địa chỉ", controller: address, a: false),
-            const SizedBox(
-              height: 20.0,
-            ),
-            InkWell(
-              onTap: () {
-                updateInformation();
-              },
-              child: Container(
-                height: 50,
-                width: 250,
-                color: Colors.blue,
-                child: const Center(
-                  child: Text(
-                    "Lưu thông tin",
-                    style: TextStyle(fontSize: 25, color: Colors.black),
+                  Positioned(
+                    right: 10,
+                    bottom: 0,
+                    child: InkWell(
+                      onTap: () {},
+                      child: const CircleAvatar(
+                        backgroundImage:
+                            AssetImage("assets/images/icons/camera.png"),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Text("${loggedInUser.fullname}",
+                  style: const TextStyle(fontSize: 25)),
+              buildTextField(title: "Tên hiển thị", controller: name, a: false),
+              buildTextField(title: "Email", controller: email, a: true),
+              buildTextField(
+                  title: "Số điện thoại", controller: phone, a: false),
+              buildTextField(title: "Địa chỉ", controller: address, a: false),
+              const SizedBox(
+                height: 20.0,
+              ),
+              InkWell(
+                onTap: () {
+                  updateInformation();
+                },
+                child: Container(
+                  height: 50,
+                  width: 250,
+                  color: Colors.blue,
+                  child: const Center(
+                    child: Text(
+                      "Lưu thông tin",
+                      style: TextStyle(fontSize: 25, color: Colors.black),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
