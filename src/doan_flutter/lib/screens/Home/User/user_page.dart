@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserPage extends StatefulWidget {
@@ -51,7 +52,7 @@ class _UserPageState extends State<UserPage> {
             ),
           ),
           InkWell(
-            onTap: () => Navigator.pushNamed(context, "/"),
+            onTap: () => logout(context),
             child: ListTile(
               leading: const Text("Đăng xuất", style: TextStyle(fontSize: 25)),
               trailing: Image.asset("assets/images/icons/nutnav.png"),
@@ -60,5 +61,10 @@ class _UserPageState extends State<UserPage> {
         ],
       ),
     );
+  }
+
+    Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushNamed(context, "/");
   }
 }
