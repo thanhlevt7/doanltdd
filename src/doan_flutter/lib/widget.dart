@@ -1,4 +1,3 @@
-
 import 'package:doan_flutter/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -64,8 +63,8 @@ Widget password({controller, text, function}) => TextFormField(
         labelText: text,
       ),
       validator: (value) {
-        if (value == null || value.length <= 8) {
-          return 'Mật khẩu không được trống, và nhiều hơn 8 kí tự';
+        if (value == null || value.length < 6) {
+          return 'Mật khẩu không được trống, và nhiều hơn 5 kí tự';
         }
         return null;
       },
@@ -98,14 +97,7 @@ Widget input({controller, icon, text}) => TextFormField(
       },
     );
 
-Widget button(
-        { text,
-         h,
-         w,
-        icon,
-         radius,
-        backgroundColor}) =>
-    Container(
+Widget button({text, h, w, icon, radius, backgroundColor}) => Container(
       decoration: BoxDecoration(
           color: (backgroundColor == null) ? buttonColor : backgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(radius.toDouble()))),
@@ -123,7 +115,7 @@ Widget button(
               ),
       ),
     );
-Widget textButton({ text,  press}) => TextButton(
+Widget textButton({text, press}) => TextButton(
       onPressed: press,
       child: Text(
         text,
@@ -135,8 +127,6 @@ Widget textButton({ text,  press}) => TextButton(
     );
 
 Widget iconButton({icon, press}) => IconButton(onPressed: press, icon: icon);
-
-
 
 Widget buildText({text, size, color, weight}) => Text(
       text,
@@ -181,38 +171,55 @@ Widget counter({value, decrement, increment}) => Card(
       ),
     );
 
-     Widget buildListTile({img,titles, datevaview, sup,press}) => ListTile(
-        leading: Image.asset(
-          img,
-          width: 75,
-        
-        ),
-        title: Text(
-          titles,
-          style: TextStyle(color: Colors.blue),
-        ),
-        subtitle: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(datevaview),
-            Text(
-              sup,
-              style: TextStyle(color: Colors.black),
-            ),
-            InkWell(
-                onTap:press,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Text(
-                      "Xem chi tiết ...",
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ],
+Widget buildListTile({img, titles, datevaview, sup, press}) => ListTile(
+      leading: Image.asset(
+        img,
+        width: 75,
+      ),
+      title: Text(
+        titles,
+        style:const TextStyle(color: Colors.blue),
+      ),
+      subtitle: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(datevaview),
+          Text(
+            sup,
+            style:const TextStyle(color: Colors.black),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: press,
+                child: const Text(
+                  "Xem chi tiết ...",
+                  style: TextStyle(color: Colors.blue),
                 ),
               ),
-            
-          ],
+            ],
+          ),
+        ],
+      ),
+    );
+
+Widget listTileCategory(title,{press}) => Container(
+    color: const Color(0xFF1FB841),
+    height: 50,
+    width: double.infinity,
+    child: ListTile(
+      leading: InkWell(
+        onTap: press,
+        child: Image.asset(
+          "assets/images/icons/danhmuc.png",
         ),
-      );
+      ),
+      title: Center(
+          child: Text(
+        title,
+        style: const TextStyle(fontSize: 25),
+      )),
+      trailing: const Icon(Icons.search),
+    ));
