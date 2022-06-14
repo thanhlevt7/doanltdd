@@ -59,11 +59,11 @@ class _PersonalnformationState extends State<Personalnformation> {
               ),
               textInf(
                 title: "Số điện thoại :",
-                text: "0348340873",
+                text: "${loggedInUser.phone}",
               ),
               textInf(
                 title: "Địa chỉ :",
-                text: "Bà rịa vũng tàu",
+                text: "${loggedInUser.address}",
               ),
             ]),
           ),
