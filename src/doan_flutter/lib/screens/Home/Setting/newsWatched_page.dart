@@ -24,22 +24,27 @@ class _NewsWatchedState extends State<NewsWatched> {
                 style: TextStyle(fontSize: 25, color: Colors.red)),
           ),
           buildListTile(
+            press: () {
+              Navigator.pushNamed(context, "/ArticleDetails");
+            },
             img: "assets/images/icons/quatrinh.png",
             titles: "Quá trình xây dụng trường",
             datevaview: "Ngày 27-05-2022|Lượt xem :359",
             sup:
                 "NĂM 1907: Lúc đầu nhà trường chưa được trang bị đầy đủ nên phần thực hành...",
-              //  press: Navigator.pushNamed(context, "/ArticleDetails"),
           ),
           const SizedBox(
             height: 20.0,
           ),
           buildListTile(
-              img: "assets/images/icons/thongtin1.png",
-              titles:
-                  "Đội ngũ giảng viên ,công nhân viên Trường cao đẳng kỹ thuật Cao Thắng",
-              datevaview: "Ngày 27-05-2022|Lượt xem :359",
-              sup: "Giới thiệu đội ngũ giảng viên, công nhân viên..."),
+              press: () {
+                Navigator.pushNamed(context, "/ArticleDetails2");
+              },
+              img: "assets/images/icons/anhhung.png",
+              titles: "Ngôi trường mang tên vị anh hùng dân tộc",
+              datevaview: "Ngày: 29-10-2011 | Lượt xem: 14426",
+              sup:
+                  "Khi mới 10 tuổi, Cao Thắng đã đi theo Đội Lựu (Trần Quang Cán) làm liên lạc cho nghĩa quân mà triều đình Huế gọi là giặc Cờ Vàng."),
         ],
       ),
     );

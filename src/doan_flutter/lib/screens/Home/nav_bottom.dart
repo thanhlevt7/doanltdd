@@ -1,5 +1,6 @@
-import 'package:doan_flutter/screens/Home/User/category_page.dart';
+
 import 'package:doan_flutter/screens/Home/User/user_page.dart';
+import 'package:doan_flutter/screens/Home/category/category_page.dart';
 import 'package:doan_flutter/screens/Home/home_page.dart';
 import 'package:doan_flutter/screens/Home/notification_page.dart';
 import 'package:flutter/material.dart';
