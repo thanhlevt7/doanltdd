@@ -13,7 +13,7 @@ class _CategoryPageState extends State<CategoryPage> {
     'Giới thiệu',
     'Phòng công tác hs-sv',
     'Phòng đào tạo',
-    'Câu lạc bộ',
+    'Trung Tâm',
     'Đoàn thanh niên',
     'Khoa',
     'Phòng ban'
@@ -40,22 +40,22 @@ class _CategoryPageState extends State<CategoryPage> {
                         Navigator.pushNamed(context, "/Introduce");
                       }
                       if (index == 2) {
-                        Navigator.pushNamed(context, "/Nav");
+                        Navigator.pushNamed(context, "/StudentButtonRoom");
                       }
                       if (index == 3) {
-                        Navigator.pushNamed(context, "/Nav");
+                        Navigator.pushNamed(context, "/TrainingRoom");
                       }
                       if (index == 4) {
-                        Navigator.pushNamed(context, "/Nav");
+                        Navigator.pushNamed(context, "/Center");
                       }
                       if (index == 5) {
-                        Navigator.pushNamed(context, "/Nav");
+                        Navigator.pushNamed(context, "/YoungGroup");
                       }
                       if (index == 6) {
-                        Navigator.pushNamed(context, "/Nav");
+                        Navigator.pushNamed(context, "/Khoa");
                       }
-                      else{
-                        Navigator.pushNamed(context, "/Nav");
+                      if (index == 7) {
+                        Navigator.pushNamed(context, "/Department");
                       }
                     },
                   ),
