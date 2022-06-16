@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doan_flutter/model/user_model.dart';
-import 'package:doan_flutter/widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -74,6 +72,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                   return null;
                 }),
             buildTextField(
+                dieukien: (value) {
+                  if (passmoiController.text.length < 6) {
+                    return "Mật khẩu ít nhất 6 ký tự";
+                  }
+                  if (passmoiController.text == passcuController.text) {
+                    return "Mật khẩu mới phải khác mật khẩu cũ";
+                  }
+                },
                 a: false,
                 title: 'Mật khẩu mới',
                 b: "Nhập mật khẩu mới",
