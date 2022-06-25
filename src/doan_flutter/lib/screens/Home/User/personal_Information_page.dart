@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doan_flutter/constant.dart';
-import 'package:doan_flutter/widget.dart';
+import 'package:doan_flutter/model/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Personalnformation extends StatefulWidget {
@@ -10,11 +12,25 @@ class Personalnformation extends StatefulWidget {
 }
 
 class _PersonalnformationState extends State<Personalnformation> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         foregroundColor: Colors.black,
         title: const Text("Thông tin cá nhân"),
       ),
       body: Column(
@@ -26,37 +42,43 @@ class _PersonalnformationState extends State<Personalnformation> {
               height: 100,
             ),
           ),
-          const Text("Thành Lễ",style: TextStyle(fontSize: 25 )),
+          Text("${loggedInUser.fullname}",
+              style: const TextStyle(fontSize: 25)),
           Card(
             margin: const EdgeInsets.all(margin),
             elevation: 5,
             child: Column(children: [
-              textInf(title: "Tên hiển thị", text: "Thành lễ"),
+              textInf(
+                title: "Tên hiển thị",
+                text: "${loggedInUser.fullname}",
+              ),
               textInf(
                 title: "Email :",
-                text: "Thanhlevt7@gmail.com",
+                text: "${loggedInUser.email}",
               ),
               textInf(
                 title: "Số điện thoại :",
-                text: "0348340873",
+                text: "${loggedInUser.phone}",
               ),
               textInf(
                 title: "Địa chỉ :",
-                text: "Bà rịa vũng tàu",
+                text: "${loggedInUser.address}",
               ),
             ]),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           InkWell(
             onTap: () => Navigator.pushNamed(context, "/editProfile"),
             child: Container(
               height: 50,
               width: 250,
               color: Colors.blue,
-              child:const Center(
+              child: const Center(
                 child: Text(
                   "Chỉnh sửa thông tin",
-                  style: TextStyle(fontSize: 25,color: Colors.black),
+                  style: TextStyle(fontSize: 25, color: Colors.black),
                 ),
               ),
             ),
@@ -74,10 +96,7 @@ class _PersonalnformationState extends State<Personalnformation> {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 25,
-              color: textColor
-            ),
+            style: const TextStyle(fontSize: 25, color: textColor),
           ),
           Text(
             text,

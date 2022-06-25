@@ -1,18 +1,24 @@
 import 'package:doan_flutter/constant.dart';
 import 'package:doan_flutter/widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignInPage extends StatefulWidget {
-  const SignInPage({ Key? key }) : super(key: key);
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
   State<SignInPage> createState() => _SignInPageState();
 }
 
 class _SignInPageState extends State<SignInPage> {
+  bool boolText = true;
   final emailController = TextEditingController();
   final passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  final _auth = FirebaseAuth.instance;
+
   void dispore() {
     super.dispose();
     emailController.dispose();
@@ -36,7 +42,7 @@ class _SignInPageState extends State<SignInPage> {
             children: [
               Container(
                 width: 500,
-                height:500 ,
+                height: 500,
                 margin: const EdgeInsets.all(margin),
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -65,13 +71,29 @@ class _SignInPageState extends State<SignInPage> {
                         Padding(
                           padding: const EdgeInsets.all(padding / 2),
                           child: password(
+                              sub: boolText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               controller: passController,
-                              text: "Mật khẩu"),
+                              text: "Mật khẩu",
+                              boolText: boolText,
+                              function: () {
+                                setState(() {
+                                  boolText = !boolText;
+                                });
+                              }),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: padding / 2),
                           child: InkWell(
-                              onTap: () {submit(context, emailController,passController);},
+                              onTap: () {
+                                // submit(
+                                //     context, emailController, passController);
+                                signIn(
+                                    emailController.text, passController.text);
+                                print(emailController.text);
+                                print(passController.text);
+                              },
                               child: Center(
                                   child: button(
                                       text: "Đăng nhập",
@@ -85,10 +107,7 @@ class _SignInPageState extends State<SignInPage> {
                             child: Wrap(
                               children: [
                                 textButton(
-                                    text: "Quên mật khẩu?",
-                                    press: () {
-                                     
-                                    }),
+                                    text: "Quên mật khẩu?", press: () {}),
                                 textButton(
                                     text: "Đăng Ký",
                                     press: () {
@@ -103,7 +122,7 @@ class _SignInPageState extends State<SignInPage> {
                           color: const Color(0xffc4c4c4),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(padding/2),
+                          padding: const EdgeInsets.all(padding / 2),
                           child: Row(
                             children: [
                               Image.asset(
@@ -125,11 +144,26 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  submit(BuildContext context, TextEditingController email,TextEditingController password) async {
+  submit(BuildContext context, TextEditingController email,
+      TextEditingController password) async {
     final isValid = _formKey.currentState?.validate();
     if (!isValid!) {
       return;
     }
     _formKey.currentState?.save();
+  }
+
+  void signIn(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((uid) => {
+                Fluttertoast.showToast(msg: "Đăng nhập thành công"),
+                Navigator.pushNamed(context, "/Nav")
+              })
+          .catchError((e) {
+        Fluttertoast.showToast(msg: e!.message);
+      });
+    }
   }
 }

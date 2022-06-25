@@ -1,6 +1,8 @@
-import 'package:doan_flutter/Home/User/user_page.dart';
-import 'package:doan_flutter/Home/home_page.dart';
-import 'package:doan_flutter/Home/notification_page.dart';
+
+import 'package:doan_flutter/screens/Home/User/user_page.dart';
+import 'package:doan_flutter/screens/Home/category/category_page.dart';
+import 'package:doan_flutter/screens/Home/home_page.dart';
+import 'package:doan_flutter/screens/Home/notification_page.dart';
 import 'package:flutter/material.dart';
 
 class Nav extends StatefulWidget {
@@ -12,16 +14,16 @@ class Nav extends StatefulWidget {
 
 class _NavState extends State<Nav> {
   int index = 0;
-  final screens = [
+  final _screens = [
     const HomePage(),
-    const Text("Danh mục"),
+    const CategoryPage(),
     const NotificationPage(),
     const UserPage(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[index],
+      body: _screens[index],
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
             indicatorColor: Colors.blue.shade100,
