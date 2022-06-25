@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doan_flutter/model/comment_model.dart';
+import 'package:doan_flutter/model/user_model.dart';
 import 'package:doan_flutter/widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ArticleDetails extends StatefulWidget {
   const ArticleDetails({Key? key}) : super(key: key);
@@ -9,10 +14,35 @@ class ArticleDetails extends StatefulWidget {
 }
 
 class _ArticleDetailsState extends State<ArticleDetails> {
+  final Stream<QuerySnapshot> comment =
+      FirebaseFirestore.instance.collection('comments').snapshots();
+  CommentModel comments = CommentModel();
+  UserModel users = UserModel();
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+  final data = FirebaseFirestore.instance;
+  @override
+  void initState() {
+    super.initState();
+    data.collection("users").doc(user!.uid).get().then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
+  final textController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  void dispore() {
+    super.dispose();
+    textController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
+      child: Form(
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -47,46 +77,60 @@ class _ArticleDetailsState extends State<ArticleDetails> {
               height: 2,
               color: const Color(0xffc4c4c4),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Image.asset(
-                    "assets/images/icons/avatar.png",
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text("Thành lễ"),
-                        Text("Comment_1"),
-                      ],
-                    ),
-                  ),
-                ],
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Bình luận :",
+                style: TextStyle(fontSize: 20),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Image.asset(
-                    "assets/images/icons/avatar.png",
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text("Thành lễ"),
-                        Text("Comment_2"),
-                      ],
-                    ),
-                  ),
-                ],
+            SizedBox(
+              height: 100,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: comment,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text("Something went wrong");
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading ...");
+                  }
+                  final data = snapshot.requireData;
+                  return ListView.builder(
+                      itemCount: data.size,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/icons/avatar.png",
+                                height: 30,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${data.docs[index]['uid']}",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "${data.docs[index]['content']}",
+                                      style: const TextStyle(fontSize: 15),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      });
+                },
               ),
             ),
             Padding(
@@ -104,24 +148,50 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                       color: const Color(0xffD9D9D9),
                       height: 50,
                       width: 300,
-                      child: const TextField(
-                        decoration: InputDecoration(
-                            label: Text("Viết bình luận"),
+                      child: TextFormField(
+                        controller: textController,
+                        decoration: const InputDecoration(
+                            labelText: "Viết bình luận",
                             labelStyle: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.red)),
+                        validator: (value) {
+                          if (textController.text.length < 5) {
+                            return "Tối thiểu 5 ký tự";
+                          }
+                          return null;
+                        },
                       )),
-                  Image.asset(
-                    "assets/images/icons/send.png",
-                    height: 30,
+                  InkWell(
+                    onTap: () {
+                      if (_formKey.currentState!.validate()) {
+                        createComment(content: textController.text);
+                        Fluttertoast.showToast(msg: "successful");
+                        Navigator.pushNamed(context, "/ArticleDetails");
+                      }
+                    },
+                    child: Image.asset(
+                      "assets/images/icons/send.png",
+                      height: 30,
+                    ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
-    );
+    ));
+  }
+
+  Future createComment({required String content}) async {
+    final docComment = FirebaseFirestore.instance.collection("comments").doc();
+    final map = {
+      'cid': docComment.id,
+      'content': content,
+      'uid': '${loggedInUser.fullname}'
+    };
+    await docComment.set(map);
   }
 }

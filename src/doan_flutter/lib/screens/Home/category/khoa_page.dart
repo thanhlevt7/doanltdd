@@ -48,11 +48,11 @@ class KhoaPage extends StatelessWidget {
                     ),
                     const Text(
                       "KHOA",
-                      style: TextStyle(fontSize: 25),
+                      style: TextStyle(fontSize: 25, color: Colors.white),
                     ),
                     InkWell(
                         onTap: () {
-                          print("A");
+                          Navigator.pushNamed(context, "/Search");
                         },
                         child: const Icon(Icons.search)),
                   ],
@@ -86,7 +86,9 @@ class KhoaPage extends StatelessWidget {
                   "Điện thoại: 028.38212360 (19) \nEmail: phamdinhhuan@caothang.edu.vn\nWebsite: gddc.caothang.edu.vn"),
               list("Bộ môn Kinh tế",
                   "Điện thoại:  028.38212360 (24)\nEmail: kinhte@caothang.edu.vn\nWebsite: kinhte.caothang.edu.vn"),
-              const SizedBox(height: 20,)
+              const SizedBox(
+                height: 20,
+              )
             ]),
       ),
     );

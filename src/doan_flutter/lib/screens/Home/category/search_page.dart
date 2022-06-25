@@ -11,15 +11,29 @@ class _SearchPageState extends State<SearchPage> {
   List<String> list = [
     'Quá trình xây dụng trường',
     'Ngôi trường mang tên vị anh hùng dân tộc',
+    'Hồ Chí Minh vị anh hùng dân tộc từng học trường này ',
+    'Tôn Đức Thắng, Từ Trường nghề đến cách mạng',
+    'Ngành Công Nghệ Thông Tin',
+    'Ngành Kỹ Thuật Cơ Khí',
+    'Ngành Kỹ Thuật Ô Tô',
+    'Ngành Kỹ Thuật Cơ Điện tử',
+    'Ngành Quản Trị Mạng Máy Tính',
   ];
 
   List<String> ima = [
     'quatrinh.png',
     'anhhung.png',
+    'HCM_1.png',
+    'TDT.png',
+    'ct.png',
+    'ct.png',
+    'ct.png',
+    'ct.png',
+    'ct.png'
   ];
   List<String>? listSearch;
   final FocusNode _textFocusNode = FocusNode();
-  TextEditingController? _textEditingController = TextEditingController();
+  final TextEditingController? _textEditingController = TextEditingController();
   @override
   void dispose() {
     _textFocusNode.dispose();
@@ -77,7 +91,7 @@ class _SearchPageState extends State<SearchPage> {
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          'No results found,\nPlease try different keyword',
+                          'Không tìm thấy kết quả,\nVui lòng thử lại với từ khóa khác',
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.w600),
                         ),
@@ -95,11 +109,36 @@ class _SearchPageState extends State<SearchPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
                       onTap: () {
-                        if (index == 0) {
+                        print(listSearch![index]);
+                        if (listSearch![index] == "Quá trình xây dụng trường") {
                           Navigator.pushNamed(context, "/ArticleDetails");
                         }
-                        if (index == 1) {
+                        if (listSearch![index] ==
+                            "Ngôi trường mang tên vị anh hùng dân tộc") {
                           Navigator.pushNamed(context, "/ArticleDetails2");
+                        }
+
+                        if (listSearch![index].contains("Tôn Đức Thắng")) {
+                          Navigator.pushNamed(context, "/ArticleDetails4");
+                        }
+                        if (listSearch![index].contains("Hồ Chí Minh") &&
+                            index == 0) {
+                          Navigator.pushNamed(context, "/ArticleDetails3");
+                        }
+                        if (listSearch![index].contains("Thông Tin")) {
+                          Navigator.pushNamed(context, "/CnttPage");
+                        }
+                        if (listSearch![index].contains("Cơ Khí")) {
+                          Navigator.pushNamed(context, "/CokhiPage");
+                        }
+                        if (listSearch![index].contains("Ô Tô")) {
+                          Navigator.pushNamed(context, "/OtoPage");
+                        }
+                        if (listSearch![index].contains("Cơ Điện tử")) {
+                          Navigator.pushNamed(context, "/CodientuPag");
+                        }
+                        if (listSearch![index].contains("Mạng Máy Tính")) {
+                          Navigator.pushNamed(context, "/MmtPage");
                         }
                       },
                       child: Row(
@@ -112,9 +151,11 @@ class _SearchPageState extends State<SearchPage> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(_textEditingController!.text.isNotEmpty
-                              ? listSearch![index]
-                              : list[index]),
+                          Text(
+                            _textEditingController!.text.isNotEmpty
+                                ? listSearch![index]
+                                : list[index],
+                          ),
                         ],
                       ),
                     ),

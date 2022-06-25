@@ -13,8 +13,8 @@ class _CategoryPageState extends State<CategoryPage> {
     'Giới thiệu',
     'Phòng công tác hs-sv',
     'Phòng đào tạo',
-    'Trung Tâm',
     'Đoàn thanh niên',
+    'Trung Tâm',
     'Khoa',
     'Phòng ban'
   ];
@@ -23,7 +23,6 @@ class _CategoryPageState extends State<CategoryPage> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          foregroundColor: Colors.black,
           title: const Center(child: Text("Danh mục")),
         ),
         body: ListView.builder(
@@ -45,10 +44,10 @@ class _CategoryPageState extends State<CategoryPage> {
                       if (index == 3) {
                         Navigator.pushNamed(context, "/TrainingRoom");
                       }
-                      if (index == 4) {
+                      if (index == 5) {
                         Navigator.pushNamed(context, "/Center");
                       }
-                      if (index == 5) {
+                      if (index == 4) {
                         Navigator.pushNamed(context, "/YoungGroup");
                       }
                       if (index == 6) {

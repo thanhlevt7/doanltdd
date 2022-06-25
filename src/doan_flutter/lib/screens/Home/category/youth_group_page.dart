@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doan_flutter/widget.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,9 @@ class YouthGroupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> comment =
+        FirebaseFirestore.instance.collection('baiviet').snapshots();
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -49,38 +53,59 @@ class YouthGroupPage extends StatelessWidget {
                     ),
                     const Text(
                       "ĐOÀN THANH NIÊN",
-                      style: TextStyle(fontSize: 25),
+                      style: TextStyle(fontSize: 25, color: Colors.white),
                     ),
                     InkWell(
                         onTap: () {
-                          print("A");
+                          Navigator.pushNamed(context, "/Search");
                         },
                         child: const Icon(Icons.search)),
                   ],
                 ),
               ),
-              buildListTile(
-                press: () {
-                  Navigator.pushNamed(context, "/ArticleDetails");
-                },
-                img: "assets/images/icons/quatrinh.png",
-                titles: "Quá trình xây dụng trường",
-                datevaview: "Ngày 27-05-2022|Lượt xem :359",
-                sup:
-                    "NĂM 1907: Lúc đầu nhà trường chưa được trang bị đầy đủ nên phần thực hành...",
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              buildListTile(
-                  press: () {
-                    Navigator.pushNamed(context, "/ArticleDetails2");
-                  },
-                  img: "assets/images/icons/anhhung.png",
-                  titles: "Ngôi trường mang tên vị anh hùng dân tộc",
-                  datevaview: "Ngày: 29-10-2011 | Lượt xem: 14426",
-                  sup:
-                      "Khi mới 10 tuổi, Cao Thắng đã đi theo Đội Lựu (Trần Quang Cán) làm liên lạc cho nghĩa quân mà triều đình Huế gọi là giặc Cờ Vàng."),
+              SizedBox(
+                  height: 450,
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: comment,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text("Something went wrong");
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Text("Loading ...");
+                        }
+                        final data = snapshot.requireData;
+                        return ListView.builder(
+                            itemCount: data.size,
+                            itemBuilder: (context, index) {
+                              return buildListTile(
+                                press: () {
+                                  if (index == 0) {
+                                    Navigator.pushNamed(
+                                        context, "/ArticleDetails2");
+                                  }
+                                  if (index == 1) {
+                                    Navigator.pushNamed(
+                                        context, "/ArticleDetails");
+                                  }
+                                  if (index == 3) {
+                                    Navigator.pushNamed(
+                                        context, "/ArticleDetails3");
+                                  }
+                                  if (index == 2) {
+                                    Navigator.pushNamed(
+                                        context, "/ArticleDetails4");
+                                  }
+                                },
+                                img: "${data.docs[index]['image']}",
+                                titles: "${data.docs[index]['title']}",
+                                datevaview: "${data.docs[index]['dataview']}",
+                                sup: "${data.docs[index]['content']}",
+                              );
+                            });
+                      })),
             ]),
       ),
     );

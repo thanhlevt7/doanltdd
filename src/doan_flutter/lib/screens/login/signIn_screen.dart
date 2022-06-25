@@ -1,4 +1,3 @@
-
 import 'package:doan_flutter/constant.dart';
 import 'package:doan_flutter/widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +12,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  bool boolText = true;
   final emailController = TextEditingController();
   final passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -71,7 +71,17 @@ class _SignInPageState extends State<SignInPage> {
                         Padding(
                           padding: const EdgeInsets.all(padding / 2),
                           child: password(
-                              controller: passController, text: "Mật khẩu"),
+                              sub: boolText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              controller: passController,
+                              text: "Mật khẩu",
+                              boolText: boolText,
+                              function: () {
+                                setState(() {
+                                  boolText = !boolText;
+                                });
+                              }),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: padding / 2),
@@ -79,7 +89,8 @@ class _SignInPageState extends State<SignInPage> {
                               onTap: () {
                                 // submit(
                                 //     context, emailController, passController);
-                                signIn(emailController.text, passController.text);
+                                signIn(
+                                    emailController.text, passController.text);
                                 print(emailController.text);
                                 print(passController.text);
                               },

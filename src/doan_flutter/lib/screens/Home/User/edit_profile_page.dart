@@ -51,11 +51,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       appBar: AppBar(
-          foregroundColor: Colors.black,
           title: const Text(
-            "Chỉnh sửa thông tin",
-            style: TextStyle(fontSize: 25),
-          )),
+        "Chỉnh sửa thông tin",
+        style: TextStyle(fontSize: 25),
+      )),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -66,7 +65,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top:15.0),
+                    padding: const EdgeInsets.only(top: 15.0),
                     child: Image.asset(
                       "assets/images/icons/avatar.png",
                       height: 100,

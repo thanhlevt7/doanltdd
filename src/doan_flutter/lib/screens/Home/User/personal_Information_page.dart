@@ -31,7 +31,6 @@ class _PersonalnformationState extends State<Personalnformation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: Colors.black,
         title: const Text("Thông tin cá nhân"),
       ),
       body: Column(

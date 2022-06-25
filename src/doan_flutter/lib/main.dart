@@ -1,4 +1,6 @@
 import 'package:doan_flutter/screens/Home/Setting/articleDetails_2_page.dart';
+import 'package:doan_flutter/screens/Home/Setting/articleDetails_3_page.dart';
+import 'package:doan_flutter/screens/Home/Setting/articleDetails_4_page.dart';
 import 'package:doan_flutter/screens/Home/Setting/articleDetails_page.dart';
 import 'package:doan_flutter/screens/Home/Setting/changePassword_page.dart';
 import 'package:doan_flutter/screens/Home/Setting/myActivities_page.dart';
@@ -18,6 +20,11 @@ import 'package:doan_flutter/screens/Home/category/training_room_page.dart';
 import 'package:doan_flutter/screens/Home/category/youth_group_page.dart';
 import 'package:doan_flutter/screens/Home/home_page.dart';
 import 'package:doan_flutter/screens/Home/nav_bottom.dart';
+import 'package:doan_flutter/screens/Home_details/cntt_page.dart';
+import 'package:doan_flutter/screens/Home_details/codientu_page.dart';
+import 'package:doan_flutter/screens/Home_details/cokhi_page.dart';
+import 'package:doan_flutter/screens/Home_details/mmt_page.dart';
+import 'package:doan_flutter/screens/Home_details/oto_page.dart';
 import 'package:doan_flutter/screens/login/SignIn_screen.dart';
 import 'package:doan_flutter/screens/register/signUp_screen.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +63,8 @@ class MyApp extends StatelessWidget {
         '/NewsCommented': (context) => const NewsCommented(),
         '/ArticleDetails': (context) => const ArticleDetails(),
         '/ArticleDetails2': (context) => const ArticleDetails2(),
+        '/ArticleDetails3': (context) => const ArticleDetails3(),
+        '/ArticleDetails4': (context) => const ArticleDetails4(),
         '/Introduce': (context) => const IntroductPage(),
         '/CategoryPage': (context) => const CategoryPage(),
         '/Khoa': (context) => const KhoaPage(),
@@ -64,7 +73,13 @@ class MyApp extends StatelessWidget {
         '/StudentButtonRoom': (context) => const StudentButtonRoom(),
         '/TrainingRoom': (context) => const TrainingRoomPage(),
         '/YoungGroup': (context) => const YouthGroupPage(),
-        '/Search':(context)=> const SearchPage(),
+        '/Search': (context) => const SearchPage(),
+        '/CnttPage': (context) => const CnttPage(),
+        '/CokhiPage': (context) => const CokhiPage(),
+        '/OtoPage': (context) => const OtoPage(),
+        '/CodientuPage': (context) => const CodientuPage(),
+        '/MmtPage': (context) => const MmtPage(),
+    
       },
       initialRoute: '/',
     );

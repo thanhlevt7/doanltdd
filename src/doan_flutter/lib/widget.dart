@@ -36,13 +36,13 @@ Widget email(controller) => TextFormField(
       },
     );
 
-Widget password({controller, text, function}) => TextFormField(
+Widget password({controller, text, function, boolText, sub}) => TextFormField(
       style: const TextStyle(
         fontSize: 22,
         color: textColor,
       ),
       controller: controller,
-      obscureText: true,
+      obscureText: boolText,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.lock_open),
@@ -52,7 +52,7 @@ Widget password({controller, text, function}) => TextFormField(
         suffixIcon: InkWell(
             onTap: function,
             child: Icon(
-              Icons.visibility,
+              sub,
               color: Colors.grey.shade500,
             )),
         errorStyle: const TextStyle(fontSize: 16),
@@ -146,7 +146,10 @@ Widget buildListTile({img, titles, datevaview, sup, press}) => InkWell(
             Text(datevaview),
             Text(
               sup,
-              style: const TextStyle(color: Colors.black),
+              style: const TextStyle(
+                  fontWeight: FontWeight.w400, color: Colors.black),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

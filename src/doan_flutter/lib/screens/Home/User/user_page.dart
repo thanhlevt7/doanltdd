@@ -11,7 +11,7 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-   User? user = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
   @override
   void initState() {
@@ -25,11 +25,11 @@ class _UserPageState extends State<UserPage> {
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          foregroundColor: Colors.black,
           automaticallyImplyLeading: false,
           title: const Center(
             child: Text("Cá nhân"),
@@ -79,7 +79,7 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-    Future<void> logout(BuildContext context) async {
+  Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.pushNamed(context, "/");
   }

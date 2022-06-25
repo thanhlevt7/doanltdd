@@ -47,11 +47,11 @@ class DepartmentPage extends StatelessWidget {
                     ),
                     const Text(
                       "PHÒNG BAN",
-                      style: TextStyle(fontSize: 25),
+                      style: TextStyle(fontSize: 25, color: Colors.white),
                     ),
                     InkWell(
                         onTap: () {
-                          print("A");
+                          Navigator.pushNamed(context, "/Search");
                         },
                         child: const Icon(Icons.search)),
                   ],

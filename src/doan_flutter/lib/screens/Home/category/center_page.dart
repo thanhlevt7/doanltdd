@@ -48,11 +48,11 @@ class CenterPage extends StatelessWidget {
                     ),
                     const Text(
                       "TRUNG TÂM",
-                      style: TextStyle(fontSize: 25),
+                      style: TextStyle(fontSize: 25, color: Colors.white),
                     ),
                     InkWell(
                         onTap: () {
-                          print("A");
+                          Navigator.pushNamed(context, "/Search");
                         },
                         child: const Icon(Icons.search)),
                   ],
@@ -78,7 +78,6 @@ class CenterPage extends StatelessWidget {
                   "Phòng Giáo viên - Tầng trệt - dãy nhà E\nWebsite: englishcenter.caothang.edu.vn"),
               list("Trung tâm ĐT Thường Xuyên - Ngắn Hạn",
                   "Phòng ghi danh: 65 Huỳnh Thúc Kháng, P. Bến Nghé, Q.1, TP. HCM - Cổng Nam Kỳ Khởi Nghĩa.\nWebsite: txnh.caothang.edu.vn"),
-             
               const SizedBox(
                 height: 20,
               )

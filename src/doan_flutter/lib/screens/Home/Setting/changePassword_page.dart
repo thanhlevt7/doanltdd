@@ -53,8 +53,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     gmail.text = "${loggedInUser.email}";
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-          foregroundColor: Colors.black, title: const Text("Đổi mật khẩu")),
+      appBar: AppBar(title: const Text("Đổi mật khẩu")),
       body: Form(
         key: _formKey,
         child: Column(
